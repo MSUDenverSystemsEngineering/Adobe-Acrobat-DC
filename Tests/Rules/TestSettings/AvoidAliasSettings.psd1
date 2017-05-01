@@ -1,7 +1,0 @@
-@{
-    'Rules' = @{
-        'PSAvoidUsingCmdletAliases' = @{
-            'Whitelist' = @('cd')
-        }
-    }
-}
