@@ -159,7 +159,13 @@ Try {
 		Invoke-HKCURegistrySettingsForAllUsers -RegistrySettings $HKCURegistrySettings
 		## Display a message at the end of the install
 		#If (-not $useDefaultMsi) {}
-	}
+
+		#Missing Shortcut
+		If ((Test-Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Adobe Acrobat DC.lnk") -eq $false) {
+			Write-Log -Message "Missing Start Menu Shortcut! Creating shortcut..." -Severity 1 -Source $deployAppScriptFriendlyName
+			Copy-File -Path "$dirSupportFiles\Adobe Acrobat DC.lnk" -Destination "$envProgramData\Microsoft\Windows\Start Menu\Programs"
+		}
+
 	ElseIf ($deploymentType -ieq 'Uninstall')
 	{
 		##*===============================================
