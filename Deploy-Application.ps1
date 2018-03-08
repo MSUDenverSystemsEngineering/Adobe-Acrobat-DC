@@ -166,6 +166,7 @@ Try {
 			Copy-File -Path "$dirSupportFiles\Adobe Acrobat DC.lnk" -Destination "$envProgramData\Microsoft\Windows\Start Menu\Programs"
 		}
 
+	}
 	ElseIf ($deploymentType -ieq 'Uninstall')
 	{
 		##*===============================================
