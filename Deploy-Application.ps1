@@ -126,9 +126,8 @@ Try {
 		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 		$exitCode = Remove-MSIApplications -Name 'Adobe Acrobat X Pro' -PassThru
 		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
-		$exitCode = Execute-Process -Path "$dirSupportFiles\AdobeAcroCleaner_DC2015.exe" -Parameters "/Silent /Product=0" -WindowStyle "Hidden" -PassThru
-		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
-
+		$exitCode = Execute-Process -Path "$dirSupportFiles\AdobeAcroCleaner_DC2015.exe" -Parameters "/Silent /Product=0" -WindowStyle "Hidden" -IgnoreExitCodes '-1073740940' -PassThru
+		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010") -and ($exitCode.ExitCode -ne "-1073740940")) { $mainExitCode = $exitCode.ExitCode }
 
 		##*===============================================
 		##* INSTALLATION
@@ -151,8 +150,8 @@ Try {
 		[string]$installPhase = 'Post-Installation'
 
 		## <Perform Post-Installation tasks here>
-		$exitCode = Execute-Process -Path "$envCommonProgramFilesX86\Adobe\OOBE_Enterprise\RemoteUpdateManager\RemoteUpdateManager.exe" -WindowStyle "Hidden" -PassThru -IgnoreExitCodes '1'
-		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+		$exitCode = Execute-Process -Path "$envCommonProgramFilesX86\Adobe\OOBE_Enterprise\RemoteUpdateManager\RemoteUpdateManager.exe" -WindowStyle "Hidden" -IgnoreExitCodes '1,2' -PassThru
+		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010") -and ($exitCode.ExitCode -ne "2")) { $mainExitCode = $exitCode.ExitCode }
 
 		Remove-File -Path "$envCommonDesktop\Adobe Creative Cloud.lnk" -ContinueOnError $true
 
